@@ -1,0 +1,43 @@
+{
+  "expo": {
+    "name": "second-app",
+    "slug": "second-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "com.secondapp",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "bundleIdentifier": "com.ios.test",
+      "supportsTablet": true,
+      "googleServicesFile": "./GoogleService-Info.plist"
+    },
+    "android": {
+      "package": "com.secondapp",
+      "googleServicesFile": "./google-services.json",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d2a3b2dd-b291-428b-83b5-90cc268b0ef2"
+      }
+    }
+  }
+}
