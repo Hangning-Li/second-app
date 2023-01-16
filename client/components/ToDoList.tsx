@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from 'react-native';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import ITodo from "../models/todo";
@@ -10,10 +10,8 @@ interface ITodoProps {
   data: ITodo
 }
 
-const ToDoList = (props: ITodoProps) => {
-
+function ToDoList(props: ITodoProps) {
   const [isDone, setDone] = useState(false);
-  // const db = getFirestore(app);
 
   async function addTodo() {
     let dateTime = new Date();
@@ -23,7 +21,7 @@ const ToDoList = (props: ITodoProps) => {
       axios.post('http://localhost:8000/add_to_do', {
         id: props.data.id,
         date: dateTime
-    }, {
+      }, {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
@@ -31,16 +29,19 @@ const ToDoList = (props: ITodoProps) => {
         .then(function (response) {
           alert(response.data);
           setDone(true);
+          // window.location.reload();
           // set timer for a week
         })
         .catch(function (error) {
           alert(error);
-        });
-      // alert("a task is selected successfully");
-
+        })
     }
 
   }
+
+  useEffect(() => {
+
+  }, [isDone]);
 
   // async function PushNotifications(){
   //   messaging().sendMessage({
@@ -49,24 +50,48 @@ const ToDoList = (props: ITodoProps) => {
   //     }
   //   })
   // }
-
   return (
     <View style={[styles.container, { backgroundColor: props.data.color }]}>
-      <BouncyCheckbox
-        fillColor="black"
-        unfillColor="#FFFFFF"
-        iconStyle={{ borderColor: "black" }}
-        isChecked={isDone}
-        onPress={()=>{
-          addTodo();
-          // PushNotifications(props.data);
-        }}
-        style={styles.checkbox}
-      // disabled={true}
-      />
-      <Text style={styles.text}>{props.data.content}</Text>
+      {
+        !isDone &&
+        <React.Fragment>
+          <BouncyCheckbox
+            fillColor="black"
+            unfillColor="#FFFFFF"
+            iconStyle={{ borderColor: "black" }}
+            isChecked={isDone}
+            onPress={() => {
+              addTodo();
+              // PushNotifications(props.data);
+            }}
+            style={styles.checkbox}
+          // disabled={true}
+          />
+          <Text style={styles.text}>{props.data.content}</Text>
+        </React.Fragment>
+      }
+      {
+        isDone && <React.Fragment>
+          <BouncyCheckbox
+            fillColor="black"
+            unfillColor="#FFFFFF"
+            iconStyle={{ borderColor: "black" }}
+            isChecked={isDone}
+            disabled={true}
+            disableText={true}
+            style={styles.checkbox}
+          // disabled={true}
+          />
+          <Text style={styles.text}>{props.data.content}</Text>
+        </React.Fragment>
+
+      }
+
+
     </View>
+
   );
+
 }
 
 export default ToDoList;

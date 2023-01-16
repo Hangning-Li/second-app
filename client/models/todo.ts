@@ -2,7 +2,7 @@ interface ITodo{
     id: string
     content: string
     color: string
-    done: boolean
+    // done: boolean
 }
 
 export default ITodo;
