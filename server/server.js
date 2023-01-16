@@ -40,7 +40,7 @@ exp.post("/add_to_do", (req,res) =>{
     var id = req.body.id;
     var date = req.body.date;
     // send to firestore
-    // addTodo(id,date);
+    addTodo(id,date);
     res.send("a task is selected successfully");
 })
 
