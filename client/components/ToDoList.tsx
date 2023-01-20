@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useId } from "react";
 import { StyleSheet, Text, View } from 'react-native';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import ITodo from "../models/todo";
 import axios from 'axios';
-import moment from 'moment';
-// import messaging from '@react-native-firebase/messaging';
 
 interface ITodoProps {
   data: ITodo
@@ -12,6 +10,7 @@ interface ITodoProps {
 
 function ToDoList(props: ITodoProps) {
   const [isDone, setDone] = useState(false);
+  const userid = useId();
 
   async function addTodo() {
     let dateTime = new Date();
@@ -20,6 +19,7 @@ function ToDoList(props: ITodoProps) {
     if (isDone === false) {
       axios.post('http://localhost:8000/add_to_do', {
         id: props.data.id,
+        userid: userid,
         date: dateTime
       }, {
         headers: {

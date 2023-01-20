@@ -19,10 +19,12 @@ const firebaseConfig = {
 const server = app.initializeApp(firebaseConfig);
 const db =  firestore.getFirestore(server);
 
-async function addTodo(id, dateTime) {
+async function addTodo(id, userid, dateTime) {
     await firestore.addDoc(firestore.collection(db, "isDone"), {
         id: id,
-        date: dateTime
+        userId: userid,
+        date: dateTime,
+        taskTime: "one week"
     });
     console.log("data sent!");
 };
@@ -39,9 +41,11 @@ exp.use(bodyParser.urlencoded({
 exp.post("/add_to_do", (req,res) =>{
     var id = req.body.id;
     var date = req.body.date;
+    var userid = req.body.userid;
     // send to firestore
-    addTodo(id,date);
+    addTodo(id,userid, date);
     res.send("a task is selected successfully");
+    
 })
 
 
