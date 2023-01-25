@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, FlatList, TouchableOpacity, Text } from 'react-native';
-import ToDoList from './ToDoList';
 import { v4 as uuid } from 'uuid';
-import BouncyCheckbox from "react-native-bouncy-checkbox";
 import ITodo from "../models/todo";
 import axios from 'axios';
 
@@ -21,17 +19,11 @@ type ItemProps = {
     textColor: string;
 };
 
-
-
 const Todos = () => {
     const [selectedId, setSelectedId] = useState<string>();
     const [isDone, setDone] = useState(false);
     const [disable, setDisable] = useState(false);
     console.log("disable: ", disable);
-
-    // useEffect(()=>{
-
-    // }, [disable])
 
     const Item = ({ item, onPress, backgroundColor, textColor }: ItemProps) => (
         <>

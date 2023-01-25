@@ -20,7 +20,7 @@ const server = app.initializeApp(firebaseConfig);
 const db =  firestore.getFirestore(server);
 
 async function addTodo(id, userid, dateTime) {
-    await firestore.addDoc(firestore.collection(db, "isDone"), {
+    await firestore.setDoc(firestore.doc(db, "data", "user"), {
         id: id,
         userId: userid,
         date: dateTime,
