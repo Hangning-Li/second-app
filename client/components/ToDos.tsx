@@ -8,7 +8,6 @@ import { sendNotificationFirebaseAPI } from '../src/utils/pushnotification_helpe
 
 const title = 'Basic Notification';
 const body = 'This is a basic notification sent from the server!'
-const token = 'cndnhiJ_Tg63Zjm4wU1L4m:APA91bEd2J5fJlS25nFP0mVeT5_uvOyNI4W9zfxcubaGJCYd6PtTCaN3bF4GyToP7BtqM-g4juIcpIAzWKqfWzuRf7GF54O9Smns5jDxnOwd_79rYf8amUFkQhz_Ej8uwVSRZ8-7RWvQ';
 const ttl = 7 * 24 * 60 * 3600 // s
 
 const arr = [
@@ -26,11 +25,11 @@ type ItemProps = {
 
 const getToken = async () => {
     try {
-      const jsonValue = await AsyncStorage.getItem('fcmtoken')
-      return JSON.parse(jsonValue)
+      const fcmtoken = await AsyncStorage.getItem('fcmtoken');
+      return fcmtoken;
     } catch(e) {
       // error reading value
-      console.log("get token error: ", e);
+      console.log("get fcmtoken error: ", e);
     }
   }
   
@@ -62,15 +61,15 @@ const Todos = () => {
         const bodyToSend = JSON.stringify({
             id: item.id,
             userid: uuid(),
-            date: dateTime
+            date: dateTime,
+            ttl: ttl
         })
         
         return (
             <Item
                 item={item}
                 onPress={() => {
-                    setSelectedId(item.id);
-
+                    setSelectedId(item.id);    
                     if (isDone === false && disable === false) {
                         axios({
                             method: 'post',
@@ -84,7 +83,11 @@ const Todos = () => {
                                 setDone(true);
                                 setDisable(true);
                                 // push notifications
-                                sendNotificationFirebaseAPI(token,title,body);
+                                getToken().then((value) => {
+                                    const token: string = value;
+                                    console.log("token: ", token)
+                                    sendNotificationFirebaseAPI(token,title,body);
+                                  });                                
                             })
                             .catch(function (error) {
                                 if (error.response) {

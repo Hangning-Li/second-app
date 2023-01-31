@@ -18,12 +18,12 @@ const server = app.initializeApp(firebaseConfig);
 const db = firestore.getFirestore(server);
 
 const exp = express();
-async function addTodo(id, userid, dateTime) {
+async function addTodo(id, userid, dateTime, ttl) {
   await firestore.setDoc(firestore.doc(db, "data", userid), {
     id: id,
     userId: userid,
     date: dateTime,
-    taskTime: "one week"
+    ttl: ttl
   });
   console.log("data sent!");
 };
@@ -41,8 +41,9 @@ exp.post("/add_to_do", (req, res) => {
   var id = req.body.id;
   var date = req.body.date;
   var userid = req.body.userid;
+  var ttl = req.body.ttl;
   // send to firestore
-  addTodo(id, userid, date);
+  addTodo(id, userid, date, ttl);
   // send the userid to the client to get that user's fcmtoken
   res.send(req.body.userId);
 })
