@@ -6,8 +6,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { sendNotificationFirebaseAPI } from '../src/utils/pushnotification_helper';
 
-const title = 'Basic Notification';
-const body = 'This is a basic notification sent from the server!'
+const title = 'Push Notificaition';
+const body = 'Your task has been selected successfully!'
 const ttl = 7 * 24 * 60 * 3600 // s
 
 const arr = [
@@ -120,12 +120,6 @@ const Todos = () => {
         <View style={styles.container}>
             <FlatList style={styles.list}
                 data={arr}
-                // renderItem={(item: any) => {
-                //     return (
-                //       <ToDoList data={item.item}/>
-                //     )
-                //   }
-                // }
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id}
                 extraData={selectedId}
