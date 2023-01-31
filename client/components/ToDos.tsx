@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useId, useState } from 'react';
 import { StyleSheet, View, FlatList, TouchableOpacity, Text } from 'react-native';
 import { v4 as uuid } from 'uuid';
 import ITodo from "../models/todo";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { sendNotificationFirebaseAPI } from '../src/utils/pushnotification_helper';
+
+const title = 'Basic Notification';
+const body = 'This is a basic notification sent from the server!'
+const token = 'cndnhiJ_Tg63Zjm4wU1L4m:APA91bEd2J5fJlS25nFP0mVeT5_uvOyNI4W9zfxcubaGJCYd6PtTCaN3bF4GyToP7BtqM-g4juIcpIAzWKqfWzuRf7GF54O9Smns5jDxnOwd_79rYf8amUFkQhz_Ej8uwVSRZ8-7RWvQ';
+const ttl = 7 * 24 * 60 * 3600 // s
 
 const arr = [
-    { 'id': uuid(), 'content': 'to-do-list-1', 'color': 'red' },
+    { 'id': uuid(), 'content': 'to-do-list-1', 'color': 'red', },
     { 'id': uuid(), 'content': 'to-do-list-2', 'color': 'green' },
     { 'id': uuid(), 'content': 'to-do-list-3', 'color': 'blue' }
 ];
-
-// var disable = false;
 
 type ItemProps = {
     item: ITodo;
@@ -18,6 +23,17 @@ type ItemProps = {
     backgroundColor: string;
     textColor: string;
 };
+
+const getToken = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('fcmtoken')
+      return JSON.parse(jsonValue)
+    } catch(e) {
+      // error reading value
+      console.log("get token error: ", e);
+    }
+  }
+  
 
 const Todos = () => {
     const [selectedId, setSelectedId] = useState<string>();
@@ -42,35 +58,53 @@ const Todos = () => {
     const renderItem = ({ item }: { item: ITodo }) => {
         const backgroundColor = item.id === selectedId ? '#6e3b6e' : '#f9c2ff';
         const color = item.id === selectedId ? 'white' : 'black';
-
+        let dateTime = new Date();
+        const bodyToSend = JSON.stringify({
+            id: item.id,
+            userid: uuid(),
+            date: dateTime
+        })
+        
         return (
             <Item
                 item={item}
                 onPress={() => {
                     setSelectedId(item.id);
-                    let dateTime = new Date();
+
                     if (isDone === false && disable === false) {
-                        axios.post('http://localhost:8000/add_to_do', {
-                            id: item.id,
-                            date: dateTime
-                        }, {
+                        axios({
+                            method: 'post',
+                            url: 'http://10.0.2.2:8000/add_to_do',
+                            data: bodyToSend,
                             headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded'
+                                "Content-Type": "application/json"
                             }
                         })
                             .then(function (response) {
-                                alert(response.data);
                                 setDone(true);
                                 setDisable(true);
-                                // set timer for a week
+                                // push notifications
+                                sendNotificationFirebaseAPI(token,title,body);
                             })
                             .catch(function (error) {
-                                alert(error);
+                                if (error.response) {
+                                    // Request made and server responded
+                                    console.log(error.response.data);
+                                    console.log(error.response.status);
+                                    console.log(error.response.headers);
+                                } else if (error.request) {
+                                    // The request was made but no response was received
+                                    console.log(error.request);
+                                } else {
+                                    // Something happened in setting up the request that triggered an Error
+                                    console.log('Error', error.message);
+                                }
                             })
                         setDone(true);
                     } else {
                         alert("your have selected your task")
                     }
+
                 }}
                 backgroundColor={backgroundColor}
                 textColor={color}
