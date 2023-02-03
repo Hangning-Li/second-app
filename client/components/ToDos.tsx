@@ -32,7 +32,7 @@ const getToken = async () => {
       console.log("get fcmtoken error: ", e);
     }
   }
-  
+    
 
 const Todos = () => {
     const [selectedId, setSelectedId] = useState<string>();
@@ -103,7 +103,6 @@ const Todos = () => {
                                     console.log('Error', error.message);
                                 }
                             })
-                        setDone(true);
                     } else {
                         alert("your have selected your task")
                     }
