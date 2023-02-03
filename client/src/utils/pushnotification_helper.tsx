@@ -85,7 +85,7 @@ export const sendNotificationFirebaseAPI = async (
             },
             data,
         })
-        //   try {
+        
         await axios({
             method: 'post',
             url: 'https://fcm.googleapis.com/fcm/send',
@@ -105,8 +105,5 @@ export const sendNotificationFirebaseAPI = async (
                 console.log('Error', error.message);
             }
         })
-        //   } catch (err) {
-        //     return { err }
-        //   }
     }
 }
