@@ -3,6 +3,8 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = require('firebase/app');
 const firestore = require('firebase/firestore');
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 
 const firebaseConfig = {
   apiKey: "AIzaSyDbDd57FY0vZFONeo96OpsjEQvle8Y0SPs",
@@ -28,6 +30,24 @@ async function addTodo(id, userid, dateTime, ttl) {
   console.log("data sent!");
 };
 
+// Extended: https://swagger.io/specification/#infoObject
+const swaggerOptions = {
+  swaggerDefinition:{
+    info: {
+      title: 'Task Selection API',
+      descriptoin: "Task Selection API Information",
+      contact: {
+        name: "Hangning Li"
+      },
+      servers: ['http://localhost:8000', 'http://10.0.2.2:8000']
+    }
+  },
+  apis: ["server.js"]
+}
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+exp.use('/api-docs',swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
 // allow CORS
 exp.use(cors({ origin: true }));
 // to support JSON-encoded bodies
@@ -37,6 +57,16 @@ exp.use(bodyParser.urlencoded({
   extended: true
 }));
 
+// Routes
+/**
+ * @swagger
+ * /add_to_do:
+ * post: 
+ *  description: use to store task and user information
+ *  responses:
+ *    '200':
+ *      description: A successful response
+ */
 exp.post("/add_to_do", (req, res) => {
   var id = req.body.id;
   var date = req.body.date;
@@ -45,7 +75,7 @@ exp.post("/add_to_do", (req, res) => {
   // send to firestore
   addTodo(id, userid, date, ttl);
   // send the userid to the client to get that user's fcmtoken
-  res.send(req.body.userId);
+  res.status(200).send(req.body.userId);
 })
 
 
