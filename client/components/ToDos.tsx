@@ -8,7 +8,6 @@ import { sendNotificationFirebaseAPI } from '../src/utils/pushnotification_helpe
 
 const title = 'Push Notificaition';
 const body = 'Your task has been selected successfully!'
-const ttl = 7 * 24 * 60 * 3600 // s
 
 const arr = [
     { 'id': uuid(), 'content': 'to-do-list-1', 'color': 'red', },
@@ -61,8 +60,7 @@ const Todos = () => {
         const bodyToSend = JSON.stringify({
             id: item.id,
             userid: uuid(),
-            date: dateTime,
-            ttl: ttl
+            date: dateTime
         })
         
         return (
@@ -87,7 +85,7 @@ const Todos = () => {
                                     const token: string = value;
                                     console.log("token: ", token)
                                     sendNotificationFirebaseAPI(token,title,body);
-                                  });                                
+                                });                                
                             })
                             .catch(function (error) {
                                 if (error.response) {

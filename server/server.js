@@ -25,7 +25,7 @@ async function addTodo(id, userid, dateTime, ttl) {
     id: id,
     userId: userid,
     date: dateTime,
-    ttl: ttl
+    ttl: 7 * 24 * 60 * 3600
   });
   console.log("data sent!");
 };
@@ -71,9 +71,8 @@ exp.post("/add_to_do", (req, res) => {
   var id = req.body.id;
   var date = req.body.date;
   var userid = req.body.userid;
-  var ttl = req.body.ttl;
   // send to firestore
-  addTodo(id, userid, date, ttl);
+  addTodo(id, userid, date);
   // send the userid to the client to get that user's fcmtoken
   res.status(200).send(req.body.userId);
 })
