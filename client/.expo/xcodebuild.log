@@ -1,0 +1,21 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project /Users/lihangning/Desktop/second-app/client/ios/secondapp.xcodeproj -configuration Debug -scheme secondapp -destination id=B684A9AE-7795-4AD5-8CE8-C266DDCC1075
+
+User defaults from command line:
+    IDEPackageSupportUseBuiltinSCM = YES
+
+Prepare packages
+
+Computing target dependency graph and provisioning inputs
+
+Create build description
+Build description signature: c78ea7f170e92c1802f3e61aa83d5b6d
+Build description path: /Users/lihangning/Library/Developer/Xcode/DerivedData/secondapp-bafbvmqxrhbdxegqpsmzvzpdsjez/Build/Intermediates.noindex/XCBuildData/c78ea7f170e92c1802f3e61aa83d5b6d-desc.xcbuild
+
+note: Building targets in dependency order
+/Users/lihangning/Desktop/second-app/client/ios/Pods/Target Support Files/Pods-secondapp/Pods-secondapp.debug.xcconfig:1:1: error: unable to open configuration settings file
+/Users/lihangning/Desktop/second-app/client/ios/Pods/Target Support Files/Pods-secondapp/Pods-secondapp.debug.xcconfig:1:1: error: unable to open configuration settings file
+/Users/lihangning/Desktop/second-app/client/ios/Pods/Target Support Files/Pods-secondapp/Pods-secondapp.debug.xcconfig:1:1: error: unable to open configuration settings file
+/Users/lihangning/Desktop/second-app/client/ios/Pods/Target Support Files/Pods-secondapp/Pods-secondapp.debug.xcconfig:1:1: error: unable to open configuration settings file
+warning: Run script build phase 'Bundle React Native code and images' will be run during every build because it does not specify any outputs. To address this warning, either add output dependencies to the script phase, or configure it to run in every build by unchecking "Based on dependency analysis" in the script phase. (in target 'secondapp' from project 'secondapp')
+warning: Run script build phase 'Start Packager' will be run during every build because it does not specify any outputs. To address this warning, either add output dependencies to the script phase, or configure it to run in every build by unchecking "Based on dependency analysis" in the script phase. (in target 'secondapp' from project 'secondapp')

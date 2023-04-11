@@ -19,7 +19,7 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "com.ios.test",
+      "bundleIdentifier": "com.hangning.notifications",
       "supportsTablet": true,
       "googleServicesFile": "./GoogleService-Info.plist"
     },
